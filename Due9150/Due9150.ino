@@ -150,7 +150,10 @@ void loop()
 //      dueMPU.printAngles(dueMPU.m_dmpEulerPose);            // the Euler angles from the dmp quaternion
 //      dueMPU.printVector(dueMPU.m_calAccel);                // print the calibrated accel data
 //      dueMPU.printVector(dueMPU.m_calMag);                  // print the calibrated mag data
-        dueMPU.printAngles(dueMPU.m_fusedEulerPose);          // print the output of the data fusion
+//      dueMPU.printAngles(dueMPU.m_fusedEulerPose);          // print the output of the data fusion
+        dueMPU.printVector(dueMPU.m_fusedEulerPose);
+        Serial.println();
+        dueMPU.printQuaternion(dueMPU.m_fusedQuaternion);
         Serial.println();
       }
       break;
@@ -317,4 +320,5 @@ void accelCalLoop()
     }
   }  
 }
+
 

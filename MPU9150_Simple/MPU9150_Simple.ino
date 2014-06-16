@@ -6,8 +6,6 @@
 #include <inv_mpu.h>
 #include <inv_mpu_dmp_motion_driver.h>
 
-#define MPU9150
-
 int ret;
 void setup() {
   //  Fastwire::setup(1000,0);

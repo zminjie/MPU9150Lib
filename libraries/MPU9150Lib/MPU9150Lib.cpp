@@ -418,38 +418,38 @@ void MPU9150Lib::dataFusion()
 
 void MPU9150Lib::printQuaternion(long *quat)
 {
-  Serial.print("w: "); Serial.print(quat[QUAT_W]);  
-  Serial.print(" x: "); Serial.print(quat[QUAT_X]);  
-  Serial.print(" y: "); Serial.print(quat[QUAT_Y]);  
-  Serial.print(" z: "); Serial.print(quat[QUAT_Z]);  
+  Serial.print(quat[QUAT_W]);  
+  Serial.print(" "); Serial.print(quat[QUAT_X]);  
+  Serial.print(" "); Serial.print(quat[QUAT_Y]);  
+  Serial.print(" "); Serial.print(quat[QUAT_Z]);  
 }
 
 void MPU9150Lib::printQuaternion(float *quat)
 {
-  Serial.print("w: "); Serial.print(quat[QUAT_W]);  
-  Serial.print(" x: "); Serial.print(quat[QUAT_X]);  
-  Serial.print(" y: "); Serial.print(quat[QUAT_Y]);  
-  Serial.print(" z: "); Serial.print(quat[QUAT_Z]);  
+  Serial.print(quat[QUAT_W]);  
+  Serial.print(" "); Serial.print(quat[QUAT_X]);  
+  Serial.print(" "); Serial.print(quat[QUAT_Y]);  
+  Serial.print(" "); Serial.print(quat[QUAT_Z]);  
 }
 
 void MPU9150Lib::printVector(short *vec)
 {
-  Serial.print("x: "); Serial.print(vec[VEC3_X]);  
-  Serial.print(" y: "); Serial.print(vec[VEC3_Y]);  
-  Serial.print(" z: "); Serial.print(vec[VEC3_Z]);    
+  Serial.print(vec[VEC3_X]);  
+  Serial.print(" "); Serial.print(vec[VEC3_Y]);  
+  Serial.print(" "); Serial.print(vec[VEC3_Z]);    
 }
 
 void MPU9150Lib::printVector(float *vec)
 {
-  Serial.print("x: "); Serial.print(vec[VEC3_X]);  
-  Serial.print(" y: "); Serial.print(vec[VEC3_Y]);  
-  Serial.print(" z: "); Serial.print(vec[VEC3_Z]);    
+  Serial.print(vec[VEC3_X]);  
+  Serial.print(" "); Serial.print(vec[VEC3_Y]);  
+  Serial.print(" "); Serial.print(vec[VEC3_Z]);    
 }
 
 void MPU9150Lib::printAngles(float *vec)
 {
-  Serial.print("x: "); Serial.print(vec[VEC3_X] * RAD_TO_DEGREE);  
-  Serial.print(" y: "); Serial.print(vec[VEC3_Y] * RAD_TO_DEGREE);  
-  Serial.print(" z: "); Serial.print(vec[VEC3_Z] * RAD_TO_DEGREE);    
+  Serial.print(vec[VEC3_X] * RAD_TO_DEGREE);  
+  Serial.print(" "); Serial.print(vec[VEC3_Y] * RAD_TO_DEGREE);  
+  Serial.print(" "); Serial.print(vec[VEC3_Z] * RAD_TO_DEGREE);    
 }
 
