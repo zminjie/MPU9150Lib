@@ -1267,7 +1267,7 @@ int dmp_read_fifo(short *gyro, short *accel, long *quat,
 
     /* Get a packet. */
     if ((errCode = mpu_read_fifo_stream(dmp->packet_length, fifo_data, more)))
-        return -1;
+        return errCode;
 
     /* Parse DMP packet. */
     if (dmp->feature_mask & (DMP_FEATURE_LP_QUAT | DMP_FEATURE_6X_LP_QUAT)) {
@@ -1303,8 +1303,8 @@ int dmp_read_fifo(short *gyro, short *accel, long *quat,
             /* Quaternion is outside of the acceptable threshold. */
             mpu_reset_fifo();
             sensors[0] = 0;
-            return -2;
-        }
+            return 3;
+        };
         sensors[0] |= INV_WXYZ_QUAT;
 #endif
     }
@@ -1331,6 +1331,7 @@ int dmp_read_fifo(short *gyro, short *accel, long *quat,
     if (dmp->feature_mask & (DMP_FEATURE_TAP | DMP_FEATURE_ANDROID_ORIENT))
         decode_gesture(fifo_data + ii);
 #endif // MPU_MAXIMAL
+    if (timestamp)
     get_ms(timestamp);
     return 0;
 }
@@ -1369,4 +1370,3 @@ int dmp_register_android_orient_cb(void (*func)(unsigned char))
 /**
  *  @}
  */
-

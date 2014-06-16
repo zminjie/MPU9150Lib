@@ -581,7 +581,7 @@ int mpu_init(struct int_param_s *int_param)
 {
     unsigned char data[6], rev;
     int errCode;
-    
+
     /* Reset device. */
     data[0] = BIT_RESET;
     if (i2c_write(st->hw->addr, st->reg->pwr_mgmt_1, 1, data))
@@ -639,7 +639,7 @@ int mpu_init(struct int_param_s *int_param)
 #ifdef MPU_DEBUG
         Serial.print("Unsupported software product rev: "); Serial.println(rev);
 #endif
-        return -7;
+        return -8;
     }
 
     /* MPU6500 shares 4kB of memory between the DMP and the FIFO. Since the
@@ -647,7 +647,7 @@ int mpu_init(struct int_param_s *int_param)
      */
     data[0] = BIT_FIFO_SIZE_1024 | 0x8;
     if (i2c_write(st->hw->addr, st->reg->accel_cfg2, 1, data))
-        return -1;
+        return -9;
 #endif
 
     /* Set to invalid values to ensure no I2C writes are skipped. */
@@ -674,15 +674,15 @@ int mpu_init(struct int_param_s *int_param)
     st->chip_cfg.dmp_sample_rate = 0;
 
     if (mpu_set_gyro_fsr(2000))
-        return -1;
+        return -10;
     if (mpu_set_accel_fsr(2))
-        return -1;
+        return -11;
     if (mpu_set_lpf(42))
-        return -1;
+        return -12;
     if (mpu_set_sample_rate(50))
-        return -1;
+        return -13;
     if (mpu_configure_fifo(0))
-        return -1;
+        return -14;
 
     if (int_param)
         reg_int_cb(int_param);
@@ -698,11 +698,11 @@ int mpu_init(struct int_param_s *int_param)
 #endif
     }
     if (mpu_set_compass_sample_rate(10))
-        return -1;
+        return -15;
 #else
     /* Already disabled by setup_compass. */
     if (mpu_set_bypass(0))
-        return -1;
+        return -16;
 #endif
 
     mpu_set_sensors(0);
@@ -1561,9 +1561,8 @@ int mpu_read_fifo(short *gyro, short *accel, unsigned long *timestamp,
 
     if (i2c_read(st->hw->addr, st->reg->fifo_count_h, 2, data))
         return -4;
-    fifo_count = (data[0] << 8) | data[1];
     if (fifo_count < packet_size)
-        return 0;
+        return 1;
 //    log_i("FIFO count: %hd\n", fifo_count);
     if (fifo_count > (st->hw->max_fifo >> 1)) {
         /* FIFO is 50% full, better check overflow bit. */
@@ -1571,13 +1570,15 @@ int mpu_read_fifo(short *gyro, short *accel, unsigned long *timestamp,
             return -5;
         if (data[0] & BIT_FIFO_OVERFLOW) {
             mpu_reset_fifo();
-            return -6;
+            return 2;
         }
     }
-    get_ms((unsigned long*)timestamp);
+    if (timestamp)
+        get_ms((unsigned long*)timestamp);
 
     if (i2c_read(st->hw->addr, st->reg->fifo_r_w, packet_size, data))
         return -7;
+
     more[0] = fifo_count / packet_size - 1;
     sensors[0] = 0;
 
@@ -1629,7 +1630,7 @@ int mpu_read_fifo_stream(unsigned short length, unsigned char *data,
     fifo_count = (tmp[0] << 8) | tmp[1];
     if (fifo_count < length) {
         more[0] = 0;
-        return -4;
+        return 1;
     }
     if (fifo_count > (st->hw->max_fifo >> 1)) {
         /* FIFO is 50% full, better check overflow bit. */
@@ -1637,7 +1638,7 @@ int mpu_read_fifo_stream(unsigned short length, unsigned char *data,
             return -5;
         if (tmp[0] & BIT_FIFO_OVERFLOW) {
             mpu_reset_fifo();
-            return -6;
+            return 2;
         }
     }
 
@@ -2734,4 +2735,3 @@ lp_int_restore:
 /**
  *  @}
  */
-

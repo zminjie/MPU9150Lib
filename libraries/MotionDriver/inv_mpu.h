@@ -25,7 +25,7 @@
 
 //  Define this symbol to get debug messages
 
-#define  MPU_DEBUG
+//#define  MPU_DEBUG
 
 //  Define this symbol to enable rarely-used functions from library
 
@@ -45,8 +45,6 @@ inline void get_ms(long unsigned int *timestamp)
 }
 
 //  IMU hardware device defines
-
-#define MPU9150
 
 #define INV_X_GYRO      (0x40)
 #define INV_Y_GYRO      (0x20)
@@ -150,4 +148,3 @@ int mpu_register_tap_cb(void (*func)(unsigned char, unsigned char));
 #endif // MPU_MAXIMAL
 
 #endif  /* #ifndef _INV_MPU_H_ */
-

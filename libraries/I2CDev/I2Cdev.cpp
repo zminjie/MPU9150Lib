@@ -623,7 +623,9 @@ bool I2Cdev::writeBytes(uint8_t devAddr, uint8_t regAddr, uint8_t length, uint8_
         //status = Fastwire::endTransmission();
     #endif
     #ifdef I2CDEV_SERIAL_DEBUG
-        Serial.println(". Done.");
+        Serial.print(". Status: ");
+        Serial.print(status);
+        Serial.println(" Done.");
     #endif
     return status == 0;
 }
